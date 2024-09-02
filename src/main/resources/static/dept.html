@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  #top button{
+    width: 150px;
+    height: 50px;
+  }
+  td{
+      text-align: center;
+  }
+  #dialogAdd br{
+        padding-bottom: 10px;
+  }
+dialog{
+    font-size: 20px;
+}
+
+dialog input{
+    height: 20px;
+    vertical-align: middle;
+}
+
+</style>
+
+<script>
+    function showAdd(){
+        document.getElementById("dialogAdd").showModal()
+    }
+    function deleteAdd(){
+        document.getElementById("dialogAdd").close()
+    }
+</script>
+<body>
+
+<dialog id="dialogAdd">
+    编号&nbsp;<input type="text"><p></p>
+    编号&nbsp;<input type="text"><p></p>
+    编号&nbsp;<input type="text"><p></p>
+    <div align="right"><button onclick="add()">添加</button> <button onclick="deleteAdd()">取消</button></div>
+</dialog>
+
+<div align="center" id="top">
+  <h1>欢迎使用员工管理系统</h1>
+    <h2>员工系统</h2>
+  <button onclick="window.location.href='/dept.html'">员工管理</button>
+  <button onclick="window.location.href='/empt.html'">员工管理</button>
+  <button>员工管理</button>
+  <button>员工管理</button>
+
+</div>
+<br>
+<div align="center">
+    编号<input type="text">&nbsp;&nbsp;编号<input type="text">&nbsp;&nbsp;编号<input type="text">
+    <button onclick="" class="el-button el-button--primary">查询</button>
+    <button onclick="showAdd()">新增</button>
+    <br>
+    <br>
+    <table width="40%" border="1" style="border-collapse:collapse; ">
+        <tr bgcolor="#87ceeb">
+            <td><input type="checkbox"></td>
+            <th>编号</th>
+            <th>编号</th>
+            <th>编号</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>001</td>
+            <td>编号</td>
+            <td>编号</td>
+            <td><a href="/empt.html">修改</a></td>
+        </tr>
+        <tr>
+        <td><input type="checkbox"></td>
+        <td>002</td>
+        <td>编号</td>
+        <td>编号</td>
+            <td><a href="/empt.html">修改</a></td>
+    </tr>
+
+        <tr>
+            <td><input type="checkbox"></td>
+            <td colspan="1" rowspan="1">002</td>
+            <td>编号</td>
+            <td>编号</td>
+            <td><a href="/empt.html">修改</a></td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>002</td>
+            <td>编号</td>
+            <td>编号</td>
+            <td><a href="/empt.html">修改</a></td>
+        </tr>
+
+        <tbody id="dataTable"></tbody>
+
+    </table>
+</div>
+<br>
+<div align="center">
+    <button>上一页</button> <button>上一页</button>
+</div>
+
+<div>
+    <form action="/findDept" method="get" enctype="multipart/form-data">
+        <input name="id" type="text">
+        <input type="submit">
+    </form>
+
+</div>
+
+<button onclick="find()"></button>
+
+<script>
+
+
+    function find(){
+        var xml = new XMLHttpRequest();
+        xml.open("get","/findDept");
+        xml.onload = function (){
+            var resp = JSON.parse(xml.response);
+            var html = "";
+            for (var i in resp) {
+                console.log(resp[i].id);
+                html +=
+                    "<tr>"+
+                    " <td><input type='checkbox'></td>"+
+                " <td>"+resp[i].id+"</td>"+
+                " <td>编号</td>"+
+                " <td>编号</td>"+
+                " <td><a href='/empt.html'>修改</a></td>"+
+                " </tr>";
+            }
+            document.getElementById("dataTable").innerHTML = html;
+        }
+        xml.send();
+    }
+
+    function add(){
+        var xml = new XMLHttpRequest();
+        xml.open("post","/insertDept")
+        xml.setRequestHeader("Content-Type","application/json")
+        xml.onload = function (){
+            alert("xfjdk")
+            deleteAdd();
+            find();
+        }
+        xml.send(JSON.stringify({
+            id:"008",
+            name:"dfa",
+            manager:"dddd"
+        }))
+
+        // xml.onreadystatechange = function (){
+        //     if (xml.readyState=200){
+        //         deleteAdd();
+        //     }
+        //
+        //
+        // }
+
+
+    }
+
+
+
+
+
+
+</script>
+</body>
+</html>
