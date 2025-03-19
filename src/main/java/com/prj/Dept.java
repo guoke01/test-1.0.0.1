@@ -7,4 +7,5 @@ public class Dept {
     private String id;
     private String name;
     private String manager;
+    private String updateTime;
 }
